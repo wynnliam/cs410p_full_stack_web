@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- Liam Wynn, 4/5/2018, CS 410p: Full Stack Web Development -->
+
+<html>
+	<body>
+		<table border="1">
+			<tr>
+				<th>attribute</th>
+				<th>value</th>
+			</tr>
+
+			<tr>
+				<td>name</td>
+				<td>
+					<input type="text" value="name" style="color: #B5B5B5;">
+				</td>
+			</tr>
+
+			<tr>
+				<td>gender</td>
+				<td>
+					<input type="radio" name="gender">male
+					<br>
+					<input type="radio" name="gender">female
+					<br>
+					<input type="radio" name="gender" checked>other
+				</td>
+			</tr>
+
+			<tr>
+				<td>major</td>
+				<td>
+					<!-- multiple makes the list something akin to
+					a "scroll list" as I would describe it-->
+					<select multiple>
+						<option>math</option>
+						<option selected>computer science</option>
+						<option>physics</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					anything else?
+					<br>
+					<textarea></textarea>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<input type="button" value="submit">
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
