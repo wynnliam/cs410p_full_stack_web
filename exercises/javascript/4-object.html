@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+
+		<script type="text/javascript">
+			var objectStrings = {};
+
+			var functionInsert = function(strKey, strValue) {
+				// insert the property with strKey and strValue into objectStrings
+				objectStrings[strKey] = strValue;
+			};
+
+			var functionDelete = function(strKey) {
+				// remove the property with strKey from objectStrings
+
+				if(objectStrings.hasOwnProperty(strKey))
+					delete objectStrings[strKey];
+			};
+
+			var functionLookup = function(strKey) {
+				// return the strValue from objectStrings that is associated with strKey
+
+				// objectStrings might not contain strKey
+				// should this be the case, return an empty string
+
+				if(objectStrings.hasOwnProperty(strKey) == false)
+					return '';
+				else
+					return objectStrings[strKey];
+			};
+
+			var functionKeys = function() {
+				// return a string of the concatenated strKey in objectStrings, separated by commas
+				var names = Object.getOwnPropertyNames(objectStrings);
+				var result = '';
+
+				for(var i = 0; i < names.length; i += 1) {
+					result += names[i];
+
+					if(i < names.length - 1)
+						result += ', ';
+				}
+
+				return result;
+			};
+
+			functionInsert('hello', 'world');
+			functionInsert('lorem', 'ipsum');
+			functionInsert('sit', 'amet');
+			console.log(functionKeys()); // expected: 'hello, lorem, sit' (order may be different)
+			console.log(functionLookup('lorem')); // expected: 'ipsum'
+			functionDelete('lorem');
+			console.log(functionKeys()); // expected: 'hello, sit' (order may be different)
+			console.log(functionLookup('lorem')); // expected: ''
+		</script>
+	</head>
+	<body>
+
+	</body>
+</html>

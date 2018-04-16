@@ -1,0 +1,16 @@
+<html>
+	<body>
+		<input id="example" type="button" value="example">
+
+		<script type="text/javascript">
+			document.onclick = function(event) {
+				console.log('document click');
+			}
+
+			document.getElementById('example').onclick = function(event) {
+				console.log('button click');
+			}
+		</script>
+	</body>
+</html>
+
