@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+		<script type="text/javascript">
+			var getTimeDiffString = function(bIsBefore, durr) {
+				var result;
+
+				if(durr.years() !== 0) {
+					result = Math.round(Math.abs(durr.asYears())) + ' years';
+				} else if(durr.months() !== 0) {
+					result = Math.abs(durr.months()) + ' months';
+				}  else if(durr.weeks() !== 0) {
+					result = Math.abs(durr.weeks()) + ' weeks';
+				}
+
+				if(bIsBefore === true) {
+					result = result + ' ago';
+				} else {
+					result = 'in ' + result;
+				}
+
+				return result;
+			}
+
+			var functionPrint = function(intEpoch) {
+				// given intEpoch (an epoch time), return a string that represents the given date in the format expected by the given examples
+				var epoch = moment(intEpoch);
+				// Used to check if the date is before or after curr date.
+				var diff = moment().diff(epoch);
+				// Used to get specific time difference.
+				var durr = moment.duration(diff);
+				// A string that says what the difference in time between the given date and the
+				// current date.
+				var append = getTimeDiffString(diff > 0, durr);
+
+				var result = epoch.format('dddd [the] Do [of] MMMM [in] YYYY - ') + append;
+
+				return result;
+			};
+
+			console.log(functionPrint(152129040472)); // expected: 'Sunday the 27th of October in 1974 - 42 years ago' (assuming pacific standard time, i wrote these instructions in 2016, so the year difference might be off now)
+			console.log(functionPrint(1910663834527)); // expected: 'Thursday the 18th of July in 2030 - in 14 years' (assuming pacific standard time, i wrote these instructions in 2016, so the year difference might be off now)
+			console.log(functionPrint(525366000362)); // expected: 'Monday the 25th of August in 1986 - 30 years ago' (assuming pacific standard time, i wrote these instructions in 2016, so the year difference might be off now)
+		</script>
+	</head>
+	<body>
+
+	</body>
+</html>
