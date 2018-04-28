@@ -1,0 +1,11 @@
+{
+  "name": "package_demo",
+  "version": "1.0.0",
+  "description": "some thing that does a thing",
+  "main": "hello.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Squanto",
+  "license": "ISC"
+}
