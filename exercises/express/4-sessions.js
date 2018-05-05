@@ -5,6 +5,7 @@ var session = require('express-session'); // do not change this line
 
 var server = express();
 
+// Set up a middleware
 server.use(session({
 	'store': new session.MemoryStore(),
 	'secret': 'squanto',

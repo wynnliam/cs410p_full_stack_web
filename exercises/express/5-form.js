@@ -45,6 +45,7 @@ var messages = [];
 
 server.use(parser.urlencoded({
 	'extended': false,
+	// What size body from client
 	'limit': 1024
 }));
 

@@ -6,16 +6,21 @@ var strategy = require('passport-http'); // do not change this line
 
 var Strategy  = require('passport-http').BasicStrategy;
 
+// Handles what we do when a user wants to authenticate
 passport.use(new Strategy(
 	function(userid, password, done) {
 		if(userid === 'test' && password === 'logmein')
-			return done(null, userid);
+			// First param -- error, second is userid/true or false
+			return done(null, true);
 		else
 			return done(null, false);
 	}
 ));
 
 var server = express();
+
+// Initialize middleware.
+server.use(passport.initialize());
 
 server.get('/hello', function(req, res) {
 	res.status(200);
@@ -27,6 +32,7 @@ server.get('/hello', function(req, res) {
 });
 
 server.get('/world',
+	// Don't use session -- see assignment 4.
 	passport.authenticate('basic', { session: false }),
 	function(req, res) {
 		res.status(200);

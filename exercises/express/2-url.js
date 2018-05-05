@@ -33,6 +33,7 @@ server.get('/attributes', function(req, res) {
 	res.write('<body>');
 	res.write('<table border="1">');
 	var keys = Object.keys(req.query);
+	// for (var strKey in req.query) -- is better to do.
 	for(var i = 0; i < keys.length; i += 1) {
 		res.write('<tr>');
 		res.write('<td>');
