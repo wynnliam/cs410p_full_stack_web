@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+		<script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
+
+		<style type="text/css">
+			#first {
+				position:absolute;
+
+				top:10px;
+				left:10px;
+
+				background-color:#3E8AB7;
+			}
+			
+			#second {
+				position:absolute;
+
+				top:10px;
+				left:120px;
+
+				background-color:#8667BC;
+			}
+			
+			#third {
+				position:absolute;
+
+				top:120px;
+				left:10px;
+
+				background-color:#8AB73E;
+			}
+			
+			#fourth {
+				position:absolute;
+
+				top:120px;
+				left:120px;
+
+				background-color:#B76B3E;
+			}
+
+			.draggable {
+				cursor:pointer;
+
+				width:100px;
+				height:100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="first" class="draggable"></div>
+		<div id="second" class="draggable"></div>
+		<div id="third" class="draggable"></div>
+		<div id="fourth" class="draggable"></div>
+
+		<script type="text/javascript">
+			var objectSocket = io.connect('http://localhost:8080/'); // do not change this line
+
+			// when dragging an element around, send a 'drag' event to the server containing the strIdent of the element and the new intLeft as well as the new intTop position
+			// for example, when dragging the first div to the right, the 'drag' event might contain: { 'strIdent':'first', 'intLeft':100, 'intTop':10 }
+			
+			// when receiving a 'drag' event from the server, use the contaianed strIdent and the intLeft as well as intTop position to update the associated element
+			// for example, you might receive the following in the 'drag' event when the last div has been dragged to the left: { 'strIdent':'fourth', 'intLeft':20, 'intTop':120 }
+
+			// Stores if a box has been clicked so we can drag it.
+			var bIsDragged = false;
+			// stores the guy we are actually dragging.
+			var currDragged = '';
+			// The positions of every box -- stored for the client.
+			var position = {
+				'first': [0, 0],
+				'second': [0, 0],
+				'third': [0, 0],
+				'fourth': [0, 0]
+			};
+
+			jQuery('.draggable')
+				.on('mousedown', function(event) {
+					var drag = jQuery(this);
+					var id = drag.get(0).id;
+					currDragged = id;
+
+					position[id][0] = event.pageX - drag.offset().left;
+					position[id][1] = event.pageY - drag.offset().top;
+
+					bIsDragged = true;
+					console.log(position[id]);
+				})
+				.on('mouseup', function(event) {
+					bIsDragged = false;
+					console.log('dumbass');
+				});
+
+			jQuery(document)
+				.on('mousemove', function(event) {
+					if(bIsDragged) {
+						console.log('AAAAAAAAAAAAAAAAAH');
+						var objDragged = jQuery('#' + currDragged);
+
+						objDragged
+							.offset({
+								'left': event.pageX - position[currDragged][0],
+								'top': event.pageY - position[currDragged][1]
+							});
+
+						// Update the server with the new data.
+						objectSocket.emit('drag', {
+							'strIdent': currDragged,
+							'intLeft': objDragged.offset().left,
+							'intTop': objDragged.offset().top
+						});
+					}
+				});
+
+			objectSocket.on('drag', function(data) {
+				jQuery('#' + data.strIdent)
+					.offset({
+						'left': data.intLeft,
+						'top': data.intTop
+					});
+			});
+		</script>
+	</body>
+</html>
